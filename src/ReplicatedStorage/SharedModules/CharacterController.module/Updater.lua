@@ -27,10 +27,10 @@ export type CharacterState  = Types.CharacterState
 local Updater = {}
 Updater.__index = Updater
 
-local start = workspace.NotStart.PrimaryPart
+local start = workspace.Start
 
 function Updater.new(character: CharacterController, customSignal: RBXScriptSignal?, customFunction: (dt: number) -> ()?)
-	if not character then warn("Missing CharacterController in argument 1.") return end
+	if not character then warn("Missing CharacterController in argument 1."); return end
 	
 	local self = {}
 	
@@ -68,8 +68,6 @@ function Updater.new(character: CharacterController, customSignal: RBXScriptSign
 				end
 				
 				self._framesSkipped = 0
-				
-			
 			end
 		end
 	end

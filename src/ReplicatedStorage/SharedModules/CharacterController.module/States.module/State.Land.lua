@@ -6,20 +6,19 @@ export type EnvironmentState = Types.EnvironmentState
 export type CharacterController = Types.CharacterController
 
 local state = {}
+state.priority = 8
+state.name = "Land"
 
 function state:SetState(self: CharacterController)
-	local con = self.controller
 	local root = self.root
+	local con = self.controller
 
 	con.ActiveController = self.groundController
-	con.MovingDirection = self.moveDirection
-	con.FacingDirection = self.moveDirection
-	
 	if root.Anchored == true then root.Anchored = false end
 end
 
 function state:IsStateAvailable(self: CharacterController)
-	return (self.moveDirection.Magnitude > 0 and self.envState == "OnGround")
+	return (self.envState == "OnGround" and self.state == "Fall")
 end
 
 return state

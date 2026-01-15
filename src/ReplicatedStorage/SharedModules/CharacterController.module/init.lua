@@ -8,17 +8,16 @@
 -- SERVICES
 --
 
-local rs = game:GetService("RunService")
-
 --
 -- LIBRARIES
 --
 
 local MAIN = script
-local States = require(MAIN.States)
+local States = require(MAIN["States.module"])
 local Build = require(MAIN.Build)
 local Types = require(MAIN.Types)
 local Updater = require(MAIN.Updater)
+local Errors = require(MAIN.Errors)
 
 --
 -- TYPES
@@ -41,11 +40,12 @@ function Character.new(model:Model): CharacterController
 	
 	local isModelValid, con, groundSensor, airController, groundController = Build.ValidateModel(model)
 	if isModelValid == false then
-		warn("Model is missing items. Building model.")
-		con, groundSensor, airController, groundController = Build.Build(model)
-		warn("Finished building model.")
+		warn(Errors.MISSING_ITEMS)
+		warn(Errors.BUILDING_MODEL)
+
+		_, con, groundSensor, airController, groundController = Build.Build(model)
 	end
-	
+
 	local self: CharacterController = {}
 
 	--
@@ -107,7 +107,7 @@ function Character:SetState(stateName: CharacterState)
 	-- If you want to check for state availability, check self.state instead of self.prevState.
 	
 	local state = States.states_map[stateName]
-	if not state then warn(`Failed to find state "{stateName}."`) return end
+	if not state then warn(`Failed to find state "{stateName}."`); return end
 	
 	if self.state ~= stateName then self.prevState = self.state end
 	
