@@ -4,7 +4,8 @@
 1.1. This is due to the way ROJO/Argon was set up.</br>
 1.2. Didn't do it to every script because I just wanted to separate the folder script and normal file script.</br>
 
-2. All scripts must end in .luau since it's more compatible for Roblox.
+2. All scripts must end in .lua since it's more compatible for Roblox.
+2.1. .luau suffix doesn't work with StyLua, and Luau Language Server doesn't seem to work with Argon.
 
 # CharacterController
 This one is actually quite old, I might rewrite it soon.
