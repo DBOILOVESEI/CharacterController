@@ -18,19 +18,17 @@ function build.ValidateModel(model:Model): (boolean, ...any)
 	
 	local con = model:FindFirstChildOfClass("ControllerManager")
 	if not con then warn(string.format(Errors.MISSING_X, "ControllerManager")); return false end
-	local groundSensor = root:FindFirstChildOfClass("ControllerPartSensor")
-	if not groundSensor then warn(string.format(Errors.MISSING_X, "GroundSensor in RootPart.")); return false end
 	
 	local airController = con:FindFirstChildOfClass("AirController")
 	if not airController then warn(string.format(Errors.MISSING_X, "AirController in ControllerManger.")); return false end
 	local groundController = con:FindFirstChildOfClass("GroundController")
 	if not groundController then warn(string.format(Errors.MISSING_X, "GroundController in ControllerManger.")); return false end
 	
-	return true, con, groundSensor, airController, groundController
+	return true, con, airController, groundController
 end
 
 function build.Build(model:Model)
-	assert(HasRootPart(model) == true, Errors.NO_ROOT_PART)
+	assert(build.HasRootPart(model) == true, Errors.NO_ROOT_PART)
 
 	local root = model.PrimaryPart
 
@@ -39,12 +37,6 @@ function build.Build(model:Model)
 		con = Instance.new("ControllerManager")
 	end
 	con.Name = "Controller"	
-
-	local groundSensor = root:FindFirstChildOfClass("ControllerPartSensor")
-	if not groundSensor then
-		groundSensor = Instance.new("ControllerPartSensor")
-	end
-	groundSensor.Name = "GroundSensor"
 	
 	local airController = root:FindFirstChildOfClass("AirController")
 	if not airController then
@@ -64,9 +56,8 @@ function build.Build(model:Model)
 	con.RootPart = root
 	con.ActiveController = groundController
 	con.Parent = model
-	groundSensor.Parent = root
 	
-	return true, con, groundSensor, airController, groundController
+	return true, con, airController, groundController
 end
 
 return build

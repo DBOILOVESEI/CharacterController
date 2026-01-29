@@ -38,12 +38,12 @@ Character.__index = Character
 function Character.new(model:Model): CharacterController
 	assert(model, "Invalid model.")
 	
-	local isModelValid, con, groundSensor, airController, groundController = Build.ValidateModel(model)
+	local isModelValid, con, airController, groundController = Build.ValidateModel(model)
 	if isModelValid == false then
 		warn(Errors.MISSING_ITEMS)
 		warn(Errors.BUILDING_MODEL)
 
-		_, con, groundSensor, airController, groundController = Build.Build(model)
+		_, con, airController, groundController = Build.Build(model)
 	end
 
 	local self: CharacterController = {}
@@ -55,7 +55,6 @@ function Character.new(model:Model): CharacterController
 	self.root = model.PrimaryPart
 	
 	self.controller = con
-	self.groundSensor = groundSensor
 	self.airController = airController
 	self.groundController = groundController
 	
@@ -84,6 +83,7 @@ function Character.new(model:Model): CharacterController
 	self.RAY_FILTER_LIST = filter
 	self.RAY_FILTER = rayParams
 	self.RAY_DIRECTION_OFFSET = (self.root.Size.X)
+	self.RAY_DIRECTION = Vector3.new(0, -1, 0)
 
 	self._updater = Updater.new(self)
 	
@@ -181,14 +181,13 @@ function Character:DetermineState(): CharacterState
 end
 
 function Character:DetermineEnvironmentState(): EnvironmentState
-	--[[
 	local result = workspace:Raycast(
 		self.root.Position,
-		self.RAY_DIRECTION,
+		self.RAY_DIRECTION*5,
 		self.RAY_FILTER
 	)
-	]]
-	local result = self.groundSensor.SensedPart
+	print(result.Instance)
+	--local result = self.groundSensor.SensedPart
 	
 	if not result then return "InAir" end
 	
@@ -221,7 +220,6 @@ end
 
 function Character:WallInDirection(dir:Vector3): boolean
 	if not dir then dir = self.root.CFrame.LookVector end
-	-- OPTIMIZATION 2: Use Raycast instead of Spherecast (much faster)
 	local result = workspace:Raycast(
 		self.root.Position,
 		dir*self.RAY_DIRECTION_OFFSET,

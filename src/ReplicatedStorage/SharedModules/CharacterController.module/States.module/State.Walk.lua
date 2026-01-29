@@ -13,7 +13,9 @@ function state:SetState(self: CharacterController)
 	local con = self.controller
 	local root = self.root
 
-	con.ActiveController = self.groundController
+	if con.ActiveController ~= self.groundController then
+		con.ActiveController = self.groundController
+	end
 	con.MovingDirection = self.moveDirection
 	con.FacingDirection = self.moveDirection
 	

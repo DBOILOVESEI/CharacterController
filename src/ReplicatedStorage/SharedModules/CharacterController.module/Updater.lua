@@ -54,10 +54,10 @@ function Updater.new(character: CharacterController, customSignal: RBXScriptSign
 			local diff = (start.Position - character.root.Position)
 			local flatDir = Vector3.new(diff.X, 0, diff.Z).Unit
 			local dir = flatDir.Magnitude > 0 and flatDir.Unit or Vector3.zero
-
-			character:SetEnvironmentState(character:DetermineEnvironmentState())
-			character:SetState(character:DetermineState())
 			
+			local state = character:DetermineState()
+			character:SetEnvironmentState(character:DetermineEnvironmentState())
+			character:SetState(state)
 			self._framesSkipped += 1
 			if self._framesSkipped >= self._frameCheckFrequency then
 				local facingWall = character:WallInDirection(dir)
