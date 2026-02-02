@@ -1,7 +1,12 @@
 -- / MODULES
-local MAIN = script.Parent
+local MAIN = script
 local Config = require(MAIN.Config)
 local Build = require(MAIN.Build)
+local Types = require(MAIN.Types)
+
+-- / Types
+export type CharacterState = Types.CharacterState
+export type CharacterEnvironmentState = Types.CharacterEnvironmentState
 
 -- / MAIN
 local Character = {}
@@ -18,11 +23,17 @@ function Character.new(model: Model)
         model = Build.GetTemplateModel()
     end
 
+    -- Initial states
+    local state: CharacterState = nil
+    local lastState: CharacterState = nil
+    local envState: CharacterEnvironmentState = nil
+    local lastEnvState: CharacterEnvironmentState = nil
+
     local self = {}
-    self.State = ""
-    self.LastState = ""
-    self.EnvironmentState = ""
-    self.LastEnvironmentState = ""
+    self.State = state
+    self.LastState = lastState
+    self.EnvironmentState = envState
+    self.LastEnvironmentState = lastEnvState
 
     local CharacterConfig = table.clone(Config.CharacterConfig)
 
