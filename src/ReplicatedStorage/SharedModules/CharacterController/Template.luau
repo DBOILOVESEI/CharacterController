@@ -3,7 +3,11 @@ Template.TemplateModel = nil
 
 function Template.Init()
     local model = Template.TemplateModel
-    if model then return end
+    if model and model.Destroy then
+        model:Destroy()
+    end
+
+    Template.CreateTemplate()
 end
 
 function Template.CreateTemplate()
