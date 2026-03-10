@@ -22,7 +22,7 @@ function Template.CreateTemplate()
 
     local groundSensor = Instance.new("ControllerPartSensor")
 
-    -- Values
+    -- Properties
     model.PrimaryPart = root
 
     root.Size = Vector3.new(2, 4, 2)

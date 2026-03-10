@@ -1,3 +1,10 @@
+-- / ROOTS
+local MAIN = script
+
+-- / MODULES
+local Signal = require(MAIN.Signal)
+
+-- / MAIN
 local CharacterController = {}
 CharacterController.__index = CharacterController
 
