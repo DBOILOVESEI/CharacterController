@@ -3,10 +3,7 @@
 local rs = game:GetService("ReplicatedStorage")
 
 local SHAREDMODULES = rs.SharedModules
-local Character = require(SHAREDMODULES["CharacterController.module"])
-
-local characters = workspace.Characters:GetChildren()
-for _, model in characters do
-    local char = Character.new(model)
-    char:Update()
-end
+local Character = require(SHAREDMODULES.CharacterController)
+Character.Init()
+local char = Character.New()
+char:Update()

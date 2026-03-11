@@ -12,15 +12,23 @@ export type Signal = Signal.Signal
 
 -- Controller specific types
 export type CharacterController = {
-    SetState: () -> (),
+    CurrentState: string,
+    PreviousState: string,
+    EnvironmentFlags: {[string]: boolean},
+
+    EnterState: () -> (),
     StateChanged: Signal
 }
 
 export type CharacterState = {
     Name: string,
     Weight: number,
-    IsStateAvailable: () -> boolean,
-    SetState: () -> any
+    CanEnter: () -> boolean,
+    Enter: () -> any
+}
+
+export type EnvironmentState = {
+    Name: string,
 }
 
 return {}

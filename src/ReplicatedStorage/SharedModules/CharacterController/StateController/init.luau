@@ -6,6 +6,7 @@ local Errors = require(MAIN.Errors)
 local Types = require(ROOT.Types)
 
 -- / TYPES
+export type CharacterController = Types.CharacterController
 export type CharacterState = Types.CharacterState
 
 -- / MAIN
@@ -16,9 +17,8 @@ StateController.EnvironmentStates = {}
 StateController.EnvironmentStatesMap = {}
 
 function StateController.Init()
-    StateController.LoadStates(MAIN.States)
-    StateController.LoadStates(MAIN.EnvironmentStates)   
-    
+    StateController.LoadStates(MAIN.CharacterStates)
+    StateController.LoadStates(MAIN.EnvironmentStates)
 end
 
 function StateController.LoadStates(statesContainer: Folder)
@@ -33,45 +33,43 @@ function StateController.LoadStates(statesContainer: Folder)
     local states_map = {}
     for _, stateModule in statesContainer:GetChildren() do
         local load = require(stateModule)
-        if not (load.Name and load.Weight and load.IsStateAvailable and load.SetState) then
-            warn(string.format(Errors.STATE_ESSENTIAL_NOT_EXIST, stateModule.Name))
-            continue
-        end
-
         local stateName = load.Name
 
         table.insert(states_list, load)
         states_map[stateName] = load
-
-        table.sort(states_list, function(a, b)
-            return a.Weight > b.Weight
-        end)
     end
+
+    table.sort(states_list, function(a, b)
+		return a.Weight > b.Weight
+    end)
 
     StateController[stateType] = states_list
     StateController[stateTypeMap] = states_map
 end
 
 -- / CHARACTER STATES
-function StateController.GetBestState(character)
+function StateController.GetBestState(character: CharacterController)
     for _, state in StateController.States do
-        local stateAvailable = state.IsStateAvailable()
-        if stateAvailable == false then continue end
+        local canEnter = state.CanEnter(character)
+        if canEnter == false then continue end
 
         return state
     end
 end
 
-function StateController.SetState(character, stateName: string)
+function StateController.EnterState(character: CharacterController, stateName: string)
     local state = StateController.StatesMap[stateName]
     if not state then
        warn(string.format(Errors.STATE_NOT_LOADED, stateName))
-    end    
+    end 
 end
 
 -- / ENVIRONMENT STATES
-function StateController.GetBestEnvironmentState(character)
-    
+function StateController.EvaluateEnvironmentStates(character: CharacterController)
+    for _, env_state in StateController.EnvironmentStates do
+        env_state.EvaluateState(character)
+    end
 end
 
+-- / END
 return StateController
