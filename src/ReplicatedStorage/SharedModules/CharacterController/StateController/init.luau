@@ -61,9 +61,9 @@ function StateController.EnterState(character: CharacterController, stateName: s
 end
 
 -- / ENVIRONMENT STATES
-function StateController.EvaluateEnvironmentStates(character: CharacterController)
+function StateController.UpdateEnvironmentFlags(character: CharacterController)
     for _, env_state in StateController.EnvironmentStates do
-        env_state.EvaluateState(character)
+        env_state.Update(character)
     end
 end
 
