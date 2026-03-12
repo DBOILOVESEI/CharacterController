@@ -11,10 +11,6 @@ export type CharacterState = Types.CharacterState
 
 -- / MAIN
 local StateController = {}
-StateController.States = {}
-StateController.StatesMap = {}
-StateController.EnvironmentStates = {}
-StateController.EnvironmentStatesMap = {}
 
 function StateController.Init()
     StateController.LoadStates(MAIN.CharacterStates)

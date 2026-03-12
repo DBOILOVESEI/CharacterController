@@ -1,16 +1,16 @@
-local Template = {}
-Template.TemplateModel = nil
+local Build = {}
+Build.TemplateModel = nil
 
-function Template.Init()
-    local model = Template.TemplateModel
+function Build.Init()
+    local model = Build.TemplateModel
     if model and model.Destroy then
         model:Destroy()
     end
 
-    Template.CreateTemplate()
+    Build.CreateTemplate()
 end
 
-function Template.CreateTemplate()
+function Build.CreateTemplate()
     -- Instance
     local model = Instance.new("Model")
     local root = Instance.new("Part")
@@ -48,7 +48,28 @@ function Template.CreateTemplate()
 
     model.Parent = nil
 
-    Template.TemplateModel = model
+    Build.TemplateModel = model
 end
 
-return Template
+function Build.NewModelFromTemplate(): Model
+    return Build.TemplateModel:Clone()
+end
+
+function Build.IsModelValid(model: Model): boolean
+    local root = model.PrimaryPart
+    if not root then return false end
+
+    local groundSensor = root:FindFirstChildOfClass("ControllerPartSensor")
+    if not groundSensor or groundSensor.SensorMode ~= Enum.SensorMode.Floor then return false end
+
+    local controller = model:FindFirstChildOfClass("ControllerManager")
+    if not controller then return false end
+
+    local groundController = controller:FindFirstChildOfClass("GroundController")
+    local airController = controller:FindFirstChildOfClass("AirController")
+    if not (groundController and airController) then return false end
+
+    return true
+end
+
+return Build
