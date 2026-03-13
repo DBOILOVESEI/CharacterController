@@ -20,12 +20,11 @@ export type Character = {
     Root: BasePart,
 
     Controller: ControllerManager,
+    ActiveController: ControllerBase,
+    ActiveGroundSensor: ControllerPartSensor | nil,
 
     Controllers: {[string]: ControllerBase},
-    ActiveController: ControllerBase,
-
     Sensors: {[string]: SensorBase},
-    ActiveGroundSensor: ControllerPartSensor | nil,
 
     GroundDistance: number,
     GroundDirection: Vector3,

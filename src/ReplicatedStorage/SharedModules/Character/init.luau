@@ -71,14 +71,24 @@ function Character.New(model: Model)
     self.Root = root
     self.Controller = controller
 
+    -- Defaults
+    self.DefaultGroundController = groundController
+    -- Add more controllers if needed:
+    -- self.DefaultAirController = airController
+
+    self.DefaultGroundSensor = groundSensor
+
+    -- Actives
+    self.ActiveController = groundSensor
+    self.ActiveGroundSensor = groundSensor
+
+    -- Controllers and Sensors
     self.Controllers = {}
     self.Controllers[groundController.Name] = groundController
     self.Controllers[airController.Name] = airController
-    self.ActiveController = groundSensor
 
     self.Sensors = {}
     self.Sensors[groundSensor.Name] = groundSensor
-    self.ActiveGroundSensor = groundSensor
 
     self.GroundDistance = groundController.GroundOffset+(root.Size.Y/2) + Config.GROUND_MARGIN_ERROR
     self.GroundDirection = Vector3.new(0, -self.GroundDistance, 0)
@@ -96,6 +106,8 @@ end
 
 function Character:Update(dt: number)
     StateController.UpdateEnvironmentFlags(self)
+    
+    StateController.UpdateState(self)
 end
 
 function Character:Destroy()

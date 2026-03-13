@@ -45,19 +45,34 @@ end
 
 -- / CHARACTER STATES
 function StateController.GetBestState(character: CharacterController)
-    for _, state in StateController.States do
+    for _, state in StateController.CharacterStates do
         local canEnter = state.CanEnter(character)
         if canEnter == false then continue end
 
         return state
     end
+	return StateController.States[#StateController.States]
 end
 
 function StateController.EnterState(character: CharacterController, stateName: string)
-    local state = StateController.StatesMap[stateName]
-    if not state then
-       warn(string.format(Errors.STATE_NOT_LOADED, stateName))
-    end 
+	local state = StateController.CharacterStatesMap[stateName]
+    if not state then return end 
+
+    if character.CurrentState == stateName then return end
+
+    local oldState = StateController.CharacterStatesMap[character.CurrentState]
+    if oldState and oldState.OnExit then
+        oldState.OnExit(character)
+    end
+
+    character.PreviousState = character.CurrentState
+    character.CurrentState = stateName
+    
+    state.OnEnter(character)
+end
+
+function StateController.UpdateState(character: CharacterController)
+    StateController.EnterState(character, StateController.GetBestState(character).Name)
 end
 
 -- / ENVIRONMENT STATES
