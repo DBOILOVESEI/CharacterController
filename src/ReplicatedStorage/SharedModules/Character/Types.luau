@@ -29,6 +29,9 @@ export type Character = {
     GroundDistance: number,
     GroundDirection: Vector3,
     Filter: RaycastParams,
+    
+    -- Cached results for Environment States
+    CachedFloorResult: RaycastResult | nil,
 
     EnterState: () -> (),
     StateChanged: Signal

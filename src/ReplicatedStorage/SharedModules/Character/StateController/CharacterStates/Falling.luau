@@ -9,7 +9,7 @@ export type Character = Types.Character
 
 -- / MAIN
 local State = {}
-State.Name = "InAir"
+State.Name = "Falling"
 
 function State.CanEnter()
     return true

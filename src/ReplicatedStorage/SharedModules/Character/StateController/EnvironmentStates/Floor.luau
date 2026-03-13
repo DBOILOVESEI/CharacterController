@@ -12,6 +12,9 @@ local Sensor = {}
 Sensor.Name = "FloorSensor"
 Sensor.Weight = 0
 
+local ZeroVector3 = Vector3.zero
+local ZeroCFrame = CFrame.new()
+
 function Sensor.Update(character: Character): RaycastResult
     local env_flags = character.EnvironmentFlags
 
@@ -37,8 +40,13 @@ function Sensor.Update(character: Character): RaycastResult
         env_flags.IN_AIR = true
         env_flags.ON_GROUND = false
 		env_flags.FLOOR_MATERIAL = Enum.Material.Air
+		activeGroundSensor.HitFrame = ZeroCFrame
+		activeGroundSensor.HitNormal = ZeroVector3
+        activeGroundSensor.SensedPart = nil
     end
 
+    character.CachedFloorResult = result
+    
     return result
 end
 
