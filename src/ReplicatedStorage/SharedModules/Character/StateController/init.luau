@@ -6,7 +6,7 @@ local Errors = require(MAIN.Errors)
 local Types = require(ROOT.Types)
 
 -- / TYPES
-export type CharacterController = Types.CharacterController
+export type CharacterController = Types.Character
 export type CharacterState = Types.CharacterState
 
 -- / MAIN

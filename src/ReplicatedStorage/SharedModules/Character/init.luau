@@ -9,8 +9,8 @@ local Build = require(MAIN.Build)
 local Errors = require(MAIN.Errors)
 
 -- / MAIN
-local CharacterController = {}
-CharacterController.__index = CharacterController
+local Character = {}
+Character.__index = Character
 
 -- Private
 -- I don't name it "active_controllers"
@@ -20,7 +20,7 @@ local ActiveControllers = {}
 local ActiveSimulation: RBXScriptConnection
 
 -- Public
-function CharacterController.Init()
+function Character.Init()
     StateController.Init()
     Build.Init()
 
@@ -34,7 +34,7 @@ function CharacterController.Init()
     end)
 end
 
-function CharacterController.New(model: Model)
+function Character.New(model: Model)
     if not model then
         model = Build.NewModelFromTemplate()
 
@@ -59,13 +59,15 @@ function CharacterController.New(model: Model)
     local self = {}
 
     -- System values
-    
+    Character.ActiveControllers[model] = self
+
     -- Controller values
     self.CurrentState = ""
     self.PreviousState = ""
     self.EnvironmentFlags = {}
 
     -- Instances
+    self.Model = model
     self.Root = root
     self.Controller = controller
 
@@ -83,21 +85,20 @@ function CharacterController.New(model: Model)
     self.Filter.FilterDescendantsInstances = {model}
     
     -- Finishing
-    setmetatable(self, CharacterController)
+    setmetatable(self, Character)
     return self
 end
 
-function CharacterController:Update(dt: number)
+function Character:Update(dt: number)
     StateController.UpdateEnvironmentFlags(self)
 end
 
-function CharacterController:Destroy()
+function Character:Destroy()
     setmetatable(self, nil)
 
-    local activeIndex = self.ActiveIndex
-    table.remove(CharacterController.ActiveControllers, activeIndex)
+    Character.ActiveControllers[self.Model] = nil
 
     table.clear(self)
 end
 
-return CharacterController
+return Character

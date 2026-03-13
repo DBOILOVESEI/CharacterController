@@ -4,6 +4,10 @@ local ROOT = MAIN.Parent.Parent.Parent
 -- / MODULES
 local Types = require(ROOT.Types)
 
+-- / TYPES
+export type Character = Types.Character 
+
+-- / MAIN
 local Sensor = {}
 Sensor.Name = "FloorSensor"
 Sensor.Weight = 0

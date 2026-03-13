@@ -11,7 +11,7 @@ local Signal = require(ROOT.Signal)
 export type Signal = Signal.Signal
 
 -- Controller specific types
-export type CharacterController = {
+export type Character = {
     CurrentState: string,
     PreviousState: string,
     EnvironmentFlags: {[string]: boolean},
@@ -20,8 +20,9 @@ export type CharacterController = {
     Root: BasePart,
 
     Controller: ControllerManager,
-    Controllers: {},
-    Sensors: {},
+    Controllers: {[string]: ControllerBase},
+    Sensors: {[string]: SensorBase},
+
     GroundDistance: number,
     Filter: RaycastParams,
 
