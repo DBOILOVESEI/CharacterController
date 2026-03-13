@@ -59,7 +59,7 @@ function Character.New(model: Model)
     local self = {}
 
     -- System values
-    Character.ActiveControllers[model] = self
+    table.insert(ActiveControllers, self)
 
     -- Controller values
     self.CurrentState = ""
@@ -73,12 +73,17 @@ function Character.New(model: Model)
 
     self.Controllers = {}
     self.Controllers[groundController.Name] = groundController
-    self.Controller[airController.Name] = airController
+    self.Controllers[airController.Name] = airController
+    self.ActiveController = groundSensor
 
     self.Sensors = {}
     self.Sensors[groundSensor.Name] = groundSensor
+    self.ActiveGroundSensor = groundSensor
 
-    self.GroundDistance = groundSensor.SearchDistance+(root.Size.Y/2)
+    self.GroundDistance = groundController.GroundOffset+(root.Size.Y/2) + Config.GROUND_MARGIN_ERROR
+    self.GroundDirection = Vector3.new(0, -self.GroundDistance, 0)
+    
+    -- groundSensor.SearchDistance = self.GroundDistance
 
     self.Filter = RaycastParams.new()
     self.Filter.FilterType = Enum.RaycastFilterType.Exclude
@@ -96,7 +101,10 @@ end
 function Character:Destroy()
     setmetatable(self, nil)
 
-    Character.ActiveControllers[self.Model] = nil
+    local activeIndex = table.find(ActiveControllers, self)
+    if activeIndex then
+        table.remove(ActiveControllers, activeIndex)
+    end
 
     table.clear(self)
 end

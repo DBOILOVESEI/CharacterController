@@ -14,16 +14,21 @@ export type Signal = Signal.Signal
 export type Character = {
     CurrentState: string,
     PreviousState: string,
-    EnvironmentFlags: {[string]: boolean},
+    EnvironmentFlags: EnvironmentFlags,
 
     Model: Model,
     Root: BasePart,
 
     Controller: ControllerManager,
+
     Controllers: {[string]: ControllerBase},
+    ActiveController: ControllerBase,
+
     Sensors: {[string]: SensorBase},
+    ActiveGroundSensor: ControllerPartSensor | nil,
 
     GroundDistance: number,
+    GroundDirection: Vector3,
     Filter: RaycastParams,
 
     EnterState: () -> (),
@@ -37,8 +42,10 @@ export type CharacterState = {
     Enter: () -> any
 }
 
-export type EnvironmentState = {
-    Name: string,
-}
+export type EnvironmentFlags = {
+    FLOOR_MATERIAL: Enum.Material,
+    IN_AIR: boolean,
+    ON_GROUND: boolean
 
+}
 return {}
