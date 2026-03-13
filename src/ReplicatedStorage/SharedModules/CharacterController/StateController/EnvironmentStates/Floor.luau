@@ -9,8 +9,7 @@ Sensor.Name = "FloorSensor"
 Sensor.Weight = 0
 
 function Sensor.Update(character)
-
-    local result = workspace:Raycast()    
+    local result = workspace:Raycast()
 end
 
 return Sensor

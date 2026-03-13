@@ -16,6 +16,15 @@ export type CharacterController = {
     PreviousState: string,
     EnvironmentFlags: {[string]: boolean},
 
+    Model: Model,
+    Root: BasePart,
+
+    Controller: ControllerManager,
+    Controllers: {},
+    Sensors: {},
+    GroundDistance: number,
+    Filter: RaycastParams,
+
     EnterState: () -> (),
     StateChanged: Signal
 }

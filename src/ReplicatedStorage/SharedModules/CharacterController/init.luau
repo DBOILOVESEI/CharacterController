@@ -68,11 +68,15 @@ function CharacterController.New(model: Model)
     -- Instances
     self.Root = root
     self.Controller = controller
-    self.GroundController = groundController
-    self.AirController = airController
-    self.GroundSensor = groundSensor
 
-    self.HipHeight = groundSensor.SearchDistance+(root.Size.Y/2)
+    self.Controllers = {}
+    self.Controllers[groundController.Name] = groundController
+    self.Controller[airController.Name] = airController
+
+    self.Sensors = {}
+    self.Sensors[groundSensor.Name] = groundSensor
+
+    self.GroundDistance = groundSensor.SearchDistance+(root.Size.Y/2)
 
     self.Filter = RaycastParams.new()
     self.Filter.FilterType = Enum.RaycastFilterType.Exclude
