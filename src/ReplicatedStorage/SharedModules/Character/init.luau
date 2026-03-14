@@ -72,11 +72,13 @@ function Character.New(model: Model)
     self.Controller = controller
 
     -- Defaults
-    self.DefaultGroundController = groundController
-    -- Add more controllers if needed:
-    -- self.DefaultAirController = airController
-
-    self.DefaultGroundSensor = groundSensor
+    self.DefaultControllers = {
+        Ground = groundController,
+        Air = airController
+    }
+    self.DefaultSensors = {
+        Ground = groundSensor
+    }
 
     -- Actives
     self.ActiveController = groundSensor

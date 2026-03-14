@@ -11,13 +11,14 @@ export type Character = Types.Character
 local State = {}
 State.Name = "Falling"
 
-function State.CanEnter()
-    return true
+function State.CanEnter(character: Character)
+    local flags = character.EnvironmentFlags
+    return (flags.IN_AIR == true and flags.ON_GROUND == false)
 end
 
 function State.OnEnter(character: Character)
     local controller = character.Controller
-    local active 
+    local defaultAirController =  
 end
 
 return State

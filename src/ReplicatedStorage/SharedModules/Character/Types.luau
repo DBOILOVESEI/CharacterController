@@ -23,6 +23,9 @@ export type Character = {
     ActiveController: ControllerBase,
     ActiveGroundSensor: ControllerPartSensor | nil,
 
+    DefaultControllers: {[string]: ControllerBase},
+    DefaultSensors: {[string]: SensorBase},
+
     Controllers: {[string]: ControllerBase},
     Sensors: {[string]: SensorBase},
 
