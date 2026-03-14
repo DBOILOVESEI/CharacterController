@@ -1,3 +1,13 @@
+local AssetService = game:GetService("AssetService")
+
+-- / ROOTS
+local MAIN = script
+local ROOT = MAIN.Parent
+
+-- /  MODULES
+local Config = require(ROOT.Config)
+
+-- / MAIN
 local Build = {}
 Build.TemplateModel = nil
 
@@ -13,8 +23,39 @@ end
 function Build.CreateTemplate()
     -- Instance
     local model = Instance.new("Model")
-    local root = Instance.new("Part")
 
+    -- Building model
+    local root = AssetService:CreateMeshPartAsync(Config.TEMPLATE_MESH_CYLINDER)
+
+    local rootWidth = Config.TEMPLATE_ROOT_SIZE.X
+    print(Config.TEMPLATE_ROOT_SIZE + Vector3.new(0, -rootWidth, 0))
+    root.Size = Config.TEMPLATE_ROOT_SIZE + Vector3.new(0, -(rootWidth), 0)
+
+    local sphere1 = AssetService:CreateMeshPartAsync(Config.TEMPLATE_MESH_SPHERE)
+    sphere1.Size = Vector3.new(rootWidth, rootWidth, rootWidth)
+	sphere1.Position = Vector3.new(0, root.Size.Y / 2, 0)
+    sphere1.CanCollide = false
+    sphere1.CanTouch = false
+    sphere1.CanQuery = false
+    sphere1.Parent = root
+
+    local sphere2 = sphere1:Clone()
+    sphere2.Position = Vector3.new(0, -(root.Size.Y/2), 0)
+    sphere2.Size = sphere1.Size
+    sphere2.Parent = root
+
+    local weld1 = Instance.new("WeldConstraint")
+    weld1.Part0 = sphere1
+    weld1.Part1 = root
+    weld1.Parent = sphere1
+
+    local weld2 = weld1:Clone()
+    weld2.Part0 = sphere2
+    weld2.Parent = sphere2
+
+    root.Parent = model
+
+    -- Controller components
     local controller = Instance.new("ControllerManager")
 
     local groundController = Instance.new("GroundController")
@@ -24,8 +65,6 @@ function Build.CreateTemplate()
 
     -- Properties
     model.PrimaryPart = root
-
-    root.Size = Vector3.new(2, 4, 2)
 
     controller.RootPart = root
     controller.ActiveController = groundController

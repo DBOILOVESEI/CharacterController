@@ -54,6 +54,7 @@ function StateController.GetBestState(character: CharacterController)
 	return StateController.States[#StateController.States]
 end
 
+-- Force enter a state
 function StateController.EnterState(character: CharacterController, stateName: string)
 	local state = StateController.CharacterStatesMap[stateName]
     if not state then return end 
@@ -67,12 +68,15 @@ function StateController.EnterState(character: CharacterController, stateName: s
 
     character.PreviousState = character.CurrentState
     character.CurrentState = stateName
-    
+
     state.OnEnter(character)
+
+	character.StateChanged:Fire()
 end
 
+-- Safe enter state
 function StateController.UpdateState(character: CharacterController)
-    StateController.EnterState(character, StateController.GetBestState(character).Name)
+    StateController.GetBestState(character).OnEnter(character)
 end
 
 -- / ENVIRONMENT STATES

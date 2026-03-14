@@ -39,7 +39,6 @@ function Character.New(model: Model)
         model = Build.NewModelFromTemplate()
 
         -- TODO: Remove this
-        model:PivotTo(CFrame.new(0, 50, 0)) 
         model.Parent = workspace
     else
 		local modelValid = Build.IsModelValid(model)
@@ -64,7 +63,11 @@ function Character.New(model: Model)
     -- Controller values
     self.CurrentState = ""
     self.PreviousState = ""
-    self.EnvironmentFlags = {}
+    self.EnvironmentFlags = {
+        -- Testing
+        -- RAGDOLL = true
+        
+    }
 
     -- Instances
     self.Model = model

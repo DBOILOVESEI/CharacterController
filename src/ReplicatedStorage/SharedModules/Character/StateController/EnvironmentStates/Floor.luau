@@ -30,6 +30,7 @@ function Sensor.Update(character: Character): RaycastResult
     )
 
     if result then
+        print(result.Instance.Name)
         env_flags.IN_AIR = false
         env_flags.ON_GROUND = true
 		env_flags.FLOOR_MATERIAL = result.Material

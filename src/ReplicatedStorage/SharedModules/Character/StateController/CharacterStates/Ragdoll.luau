@@ -9,16 +9,16 @@ export type Character = Types.Character
 
 -- / MAIN
 local State = {}
-State.Name = "Fall"
-State.Weight = 10
+State.Name = "Ragdoll"
+State.Weight = 11
 
 function State.CanEnter(character: Character)
     local flags = character.EnvironmentFlags
-    return (flags.IN_AIR == true and flags.ON_GROUND == false)
+    return (flags.RAGDOLL == true)
 end
 
 function State.OnEnter(character: Character)
-    character.Controller.ActiveController = character.DefaultControllers.Air
+    character.Controller.ActiveController = nil
 end
 
 return State
