@@ -1,7 +1,7 @@
 local Main = script.Parent.Parent
 local Types = require(Main.Types)
 
-export type CharacterState = Types.CharacterState
+export type StateBase = Types.StateBase
 export type EnvironmentState = Types.EnvironmentState
 export type CharacterController = Types.CharacterController
 

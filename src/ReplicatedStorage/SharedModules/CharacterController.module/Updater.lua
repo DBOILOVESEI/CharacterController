@@ -18,7 +18,7 @@ local Types = require(MAIN.Types)
 export type UpdaterController = Types.UpdaterController
 export type CharacterController = Types.CharacterController
 export type EnvironmentState = Types.EnvironmentState
-export type CharacterState  = Types.CharacterState
+export type StateBase  = Types.StateBase
 
 --
 -- MAIN

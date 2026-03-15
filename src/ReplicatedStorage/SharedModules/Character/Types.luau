@@ -14,8 +14,8 @@ export type Signal = Signal.Signal
 -- State types
 -- Controller specific types
 export type Character = {
-    CurrentState: CharacterState | nil,
-    PreviousState: CharacterState | nil,
+    CurrentState: StateBase | nil,
+    PreviousState: StateBase | nil,
     EnvironmentFlags: EnvironmentFlags,
 
     Model: Model,
@@ -42,7 +42,7 @@ export type Character = {
     StateChanged: Signal
 }
 
-export type CharacterState = {
+export type StateBase = {
     Name: string,
     Weight: number,
     

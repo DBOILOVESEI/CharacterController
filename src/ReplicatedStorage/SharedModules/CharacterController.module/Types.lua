@@ -1,4 +1,4 @@
-export type CharacterState = "" | "Walk" | "Fall" | "Land"
+export type StateBase = "" | "Walk" | "Fall" | "Land"
 
 export type EnvironmentState = "" | "OnGround" | "InAir" | "InWater" | "Submerged"
 
@@ -14,8 +14,8 @@ export type CharacterController = {
 	-- PRIVATE
 	--
 
-	state: CharacterState,
-	prevState: CharacterState,
+	state: StateBase,
+	prevState: StateBase,
 	envState: EnvironmentState,
 	prevEnvState: EnvironmentState,
 	
@@ -27,9 +27,9 @@ export type CharacterController = {
 	
 	new: (model:Model) -> CharacterController,
 	
-	SetState: (stateName: CharacterState) -> (),
-	GetState: () -> CharacterState,
-	GetPreviousState: () -> CharacterState,
+	SetState: (stateName: StateBase) -> (),
+	GetState: () -> StateBase,
+	GetPreviousState: () -> StateBase,
 	
 	SetEnvironmentState: (state: EnvironmentState) -> (),
 	GetEnvironmentState: () -> EnvironmentState,
@@ -38,7 +38,7 @@ export type CharacterController = {
 	SetHipHeight: (hipHeight: number) -> (),
 	GetHipHeight: () -> number,
 	
-	DetermineState: () -> CharacterState,
+	DetermineState: () -> StateBase,
 	DetermineEnvironmentState: () -> EnvironmentState,
 	
 	UpdateRayFilter: () -> (),

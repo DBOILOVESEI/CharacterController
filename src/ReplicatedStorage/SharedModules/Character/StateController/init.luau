@@ -7,7 +7,7 @@ local Types = require(ROOT.Types)
 
 -- / TYPES
 export type CharacterController = Types.Character
-export type CharacterState = Types.CharacterState
+export type StateBase = Types.StateBase
 
 -- / MAIN
 local StateController = {}
@@ -56,16 +56,16 @@ end
 
 -- Force enter a state
 -- Instead of using StateName directly,
--- we force scripts to use CharacterState
+-- we force scripts to use StateBase
 -- class for safety and also reduce map
 -- search.
-function StateController.EnterState(character: CharacterController, state: CharacterState)
+function StateController.EnterState(character: CharacterController, state: StateBase)
     local stateName = state.Name
     local currentState = character.CurrentState
     -- State doesn't change
     -- Run OnUpdate function (if exist)
     if currentState.Name == stateName then
-        if currentState.OnUpdate then currentState.OnUpdate() end
+        if currentState.OnUpdate then currentState.OnUpdate(character) end
 
         return
     end
@@ -78,13 +78,13 @@ function StateController.EnterState(character: CharacterController, state: Chara
 
     -- Run OnExit function (if exist)
     if currentState.OnExit then
-        currentState.OnExit()
+        currentState.OnExit(character)
     end
 
     -- New state
     -- Run OnEnter (if exist)
     if state.OnEnter then
-        state.OnEnter()
+        state.OnEnter(character)
     end
 
 	character.StateChanged:Fire()

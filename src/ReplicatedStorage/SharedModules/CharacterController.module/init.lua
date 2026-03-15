@@ -24,7 +24,7 @@ local Errors = require(MAIN.Errors)
 --
 
 export type CharacterController = Types.CharacterController
-export type CharacterState = Types.CharacterState
+export type StateBase = Types.StateBase
 export type EnvironmentState = Types.EnvironmentState
 export type UpdaterController = Types.UpdaterController
 
@@ -101,7 +101,7 @@ end
 
 -- STATE
 
-function Character:SetState(stateName: CharacterState)
+function Character:SetState(stateName: StateBase)
 	-- CHECK FIRST
 	-- SET LATER
 	-- If you want to check for state availability, check self.state instead of self.prevState.
@@ -115,11 +115,11 @@ function Character:SetState(stateName: CharacterState)
 	state:SetState(self)
 end
 
-function Character:GetState(): CharacterState
+function Character:GetState(): StateBase
 	return self.state
 end
 
-function Character:GetPreviousState(): CharacterState
+function Character:GetPreviousState(): StateBase
 	return self.prevState
 end
 
@@ -163,7 +163,7 @@ end
 -- DETERMINE
 --
 
-function Character:DetermineState(): CharacterState
+function Character:DetermineState(): StateBase
 	local last = self.state
 	if last ~= "" and States.states_map[last]:IsStateAvailable(self) then
 		return last
