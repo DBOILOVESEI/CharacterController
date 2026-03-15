@@ -10,10 +10,12 @@ local Signal = require(ROOT.Signal)
 -- Other types
 export type Signal = Signal.Signal
 
+
+-- State types
 -- Controller specific types
 export type Character = {
-    CurrentState: string,
-    PreviousState: string,
+    CurrentState: CharacterState | nil,
+    PreviousState: CharacterState | nil,
     EnvironmentFlags: EnvironmentFlags,
 
     Model: Model,
@@ -43,8 +45,12 @@ export type Character = {
 export type CharacterState = {
     Name: string,
     Weight: number,
+    
     CanEnter: () -> boolean,
-    Enter: () -> any
+    
+    OnEnter: (Character) -> any | nil,
+    OnExit: (Character) -> any | nil,
+    OnUpdate: (Character) -> any | nil,
 }
 
 export type EnvironmentFlags = {

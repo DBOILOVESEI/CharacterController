@@ -55,28 +55,47 @@ function StateController.GetBestState(character: CharacterController)
 end
 
 -- Force enter a state
-function StateController.EnterState(character: CharacterController, stateName: string)
-	local state = StateController.CharacterStatesMap[stateName]
-    if not state then return end 
+-- Instead of using StateName directly,
+-- we force scripts to use CharacterState
+-- class for safety and also reduce map
+-- search.
+function StateController.EnterState(character: CharacterController, state: CharacterState)
+    local stateName = state.Name
+    local currentState = character.CurrentState
+    -- State doesn't change
+    -- Run OnUpdate function (if exist)
+    if currentState.Name == stateName then
+        if currentState.OnUpdate then currentState.OnUpdate() end
 
-    if character.CurrentState == stateName then return end
-
-    local oldState = StateController.CharacterStatesMap[character.CurrentState]
-    if oldState and oldState.OnExit then
-        oldState.OnExit(character)
+        return
     end
 
-    character.PreviousState = character.CurrentState
-    character.CurrentState = stateName
+	-- State change
 
-    state.OnEnter(character)
+	-- Set states
+	character.PreviousState = character.CurrentState
+	character.CurrentState = state
+
+    -- Run OnExit function (if exist)
+    if currentState.OnExit then
+        currentState.OnExit()
+    end
+
+    -- New state
+    -- Run OnEnter (if exist)
+    if state.OnEnter then
+        state.OnEnter()
+    end
 
 	character.StateChanged:Fire()
 end
 
 -- Safe enter state
 function StateController.UpdateState(character: CharacterController)
-    StateController.GetBestState(character).OnEnter(character)
+    local state = StateController.GetBestState(character)
+    if not state then return end
+
+    StateController.EnterState(character, state)
 end
 
 -- / ENVIRONMENT STATES

@@ -123,6 +123,10 @@ function Character:Destroy()
         table.remove(ActiveControllers, activeIndex)
     end
 
+    for i, v in self do
+        if v.Destroy then v:Destroy() end
+        self[i] = nil
+    end
     table.clear(self)
 end
 
