@@ -104,6 +104,7 @@ function Character.New(model: Model)
     self.Filter.FilterType = Enum.RaycastFilterType.Exclude
     self.Filter.FilterDescendantsInstances = {model}
     
+    self.StateChanged = Signal.New()
     -- Finishing
     setmetatable(self, Character)
     return self

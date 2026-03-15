@@ -88,7 +88,7 @@ export type Signal<T...> = {
 local Signal = {}
 Signal.__index = Signal
 
-function Signal.new<T...>(): Signal<T...>
+function Signal.New<T...>(): Signal<T...>
 	return setmetatable({
 		_handlerListHead = false,
 	}, Signal) :: any
