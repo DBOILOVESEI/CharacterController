@@ -35,11 +35,15 @@ export type Character = {
     GroundDirection: Vector3,
     Filter: RaycastParams,
     
+    StateChanged: Signal,
+
+    -- These are garbage that will be
+    -- removed or edited into something
+    -- more meaningful.
+
     -- Cached results for Environment States
     CachedFloorResult: RaycastResult | nil,
-
     EnterState: () -> (),
-    StateChanged: Signal
 }
 
 export type StateBase = {
