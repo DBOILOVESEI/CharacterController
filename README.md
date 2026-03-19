@@ -1,14 +1,14 @@
-# Naming Rules
+# Character and CharacterController Class for handling Player's Character
+1. Character Class
+    Character class is a class that acts similarly to a state machine that handles Characters generally.\
+    This class is used as is if you want to make an NPC, but client might require some work (see CharacterController).\
 
-1. Module that contains more modules has .module suffix.</br>
-1.1. This is due to the way ROJO/Argon was set up.</br>
-1.2. Didn't do it to every script because I just wanted to separate the folder script and normal file script.</br>
-
-2. All scripts must end in .lua since it's more compatible for Roblox.
-2.1. .luau suffix doesn't work with StyLua, and Luau Language Server doesn't seem to work with Argon.
+    It works by going through every state that was loaded and check for its condition every heartbeat. If the condition if met, the Character will enter that state.\
+2. CharacterController
+    CharacterController is a new class that I am planning on making. It will handle Player's Character for the client.
 
 # CharacterController
-This one is actually quite old, I might rewrite it soon.
+This one is way too old at this point, I will not rewrite it soon.
 
 Learning
 
